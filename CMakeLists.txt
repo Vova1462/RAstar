@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
 )
-
+add_compile_options(-std=c++11)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 

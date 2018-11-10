@@ -95,6 +95,7 @@ void RAstarPlannerROS::initialize(std::string name, costmap_2d::Costmap2DROS* co
     costmap_ = costmap_ros_->getCostmap();
 
     ros::NodeHandle private_nh("~/" + name);
+    ros::NodeHandle n;
 
     originX = costmap_->getOriginX();
     originY = costmap_->getOriginY();
@@ -108,7 +109,7 @@ void RAstarPlannerROS::initialize(std::string name, costmap_2d::Costmap2DROS* co
 	tBreak = 1+1/(mapSize); 
 	value =0;
 
-  isMove = false
+  isMove = false;
 
 	OGM = new bool [mapSize]; 
     for (unsigned int iy = 0; iy < costmap_->getSizeInCellsY(); iy++)
@@ -124,7 +125,7 @@ void RAstarPlannerROS::initialize(std::string name, costmap_2d::Costmap2DROS* co
       }
     }
 
-  cmd_move_msg = advertise<std_msgs::String>("cmd_move", 1000)
+  cmd_move_msg = n.advertise<std_msgs::String>("cmd_move", 1000);
 	MyExcelFile << "StartID\tStartX\tStartY\tGoalID\tGoalX\tGoalY\tPlannertime(ms)\tpathLength\tnumberOfCells\t" << endl;
 
     ROS_INFO("RAstar planner initialized successfully");
@@ -137,6 +138,7 @@ void RAstarPlannerROS::initialize(std::string name, costmap_2d::Costmap2DROS* co
 bool RAstarPlannerROS::makePlan(const geometry_msgs::PoseStamped& start, const geometry_msgs::PoseStamped& goal,
                              std::vector<geometry_msgs::PoseStamped>& plan)
 {
+  ROS_INFO("START MAKE PLAN");
 
   if (!initialized_)
   {
@@ -191,6 +193,8 @@ MyExcelFile << startCell <<"\t"<< start.pose.position.x <<"\t"<< start.pose.posi
     return false;
   }
 
+  // Allow moving
+  startMoving(goal);
   /////////////////////////////////////////////////////////
 
   // call global planner
@@ -322,11 +326,11 @@ vector<int> RAstarPlannerROS::RAstarPlanner(int startCell, int goalCell){
    vector<int> bestPath;
 
 
-//float g_score [mapSize][2];
-float g_score [mapSize];
+  //float g_score [mapSize][2];
+  float g_score [mapSize];
 
-for (uint i=0; i<mapSize; i++)
-	g_score[i]=infinity;
+  for (uint i=0; i<mapSize; i++)
+	  g_score[i]=infinity;
 
    timespec time1, time2;
   /* take current time here */
@@ -354,6 +358,7 @@ for (uint i=0; i<mapSize; i++)
 /*********************************************************************************/
 vector<int> RAstarPlannerROS::findPath(int startCell, int goalCell, float g_score[])
 {
+  ROS_INFO("START FIND PATH");
 	value++;
 	vector<int> bestPath;
 	vector<int> emptyPath;
@@ -412,6 +417,7 @@ vector<int> RAstarPlannerROS::findPath(int startCell, int goalCell, float g_scor
 /*********************************************************************************/
 vector<int> RAstarPlannerROS::constructPath(int startCell, int goalCell,float g_score[])
 {
+  ROS_INFO("CONSTRUCT THE ROBOT PATH");
 	vector<int> bestPath;
 	vector<int> path;
 
@@ -608,16 +614,21 @@ bool RAstarPlannerROS::isStartAndGoalCellsValid(int startCell,int goalCell)
  return OGM[CellID];
  }
 
- void RAstarPlannerROS::startMoving(const geometry_msgs::PoseStamped& goal)
+ void RAstarPlannerROS::startMoving(const geometry_msgs::PoseStamped& goal){
+   ROS_INFO("Star MOVING");
    if (isMove){
-
+     terminateMoving();
    }
    isMove = true;
    std_msgs::String msg;
-   std::stringstream cmd_move_str = "move " + str(goal.x) + " " + str(goal.y);
+   std::string a = std::to_string(12);
+   std::string cmd_move_str = "PathPlanner123 move " + std::to_string(goal.pose.position.x) + " " + std::to_string(goal.pose.position.y);
    msg.data = cmd_move_str;
    cmd_move_msg.publish(msg);
-   
+ }
+
+ void RAstarPlannerROS::terminateMoving(){
+   isMove = false;
  }
 }
 ;

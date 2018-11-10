@@ -117,6 +117,7 @@ public:
   vector<int> findPath(int startCell, int goalCell, float g_score[]);
   vector<int> constructPath(int startCell, int goalCell, float g_score[]);
   void startMoving(const geometry_msgs::PoseStamped& goal);
+  void terminateMoving();
   float calculateHCost(int cellID, int goalCell){
   int x1=getCellRowID(goalCell);
   int y1=getCellColID(goalCell);
@@ -154,7 +155,7 @@ public:
   double step_size_, min_dist_from_robot_;
   costmap_2d::Costmap2D* costmap_;
   //base_local_planner::WorldModel* world_model_;
-  bool initialized_;
+  bool initialized_ = false;
   int width;
   int height;
   bool isMove;
