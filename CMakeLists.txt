@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(relaxed_astar)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
 )
-add_compile_options(-std=c++11)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -126,6 +125,7 @@ include_directories(
 #   src/${PROJECT_NAME}/relaxed_astar.cpp
 # )
 add_library(relaxed_astar_lib src/RAstar_ros.cpp)
+# add_executable(relaxed_astar src/RAstar_ros.cpp src/rastar_node.cpp)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure

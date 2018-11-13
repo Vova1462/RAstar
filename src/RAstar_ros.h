@@ -151,6 +151,7 @@ public:
   float originY;
   float resolution;
   ros::Publisher cmd_move_msg;
+  ros::Publisher response_msg;
   costmap_2d::Costmap2DROS* costmap_ros_;
   double step_size_, min_dist_from_robot_;
   costmap_2d::Costmap2D* costmap_;

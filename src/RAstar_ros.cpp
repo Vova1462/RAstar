@@ -39,7 +39,7 @@
 
 #include <pluginlib/class_list_macros.h>
 //register this planner as a BaseGlobalPlanner plugin
-PLUGINLIB_EXPORT_CLASS(RAstar_planner::RAstarPlannerROS, nav_core::BaseGlobalPlanner)
+// PLUGINLIB_EXPORT_CLASS(RAstar_planner::RAstarPlannerROS, nav_core::BaseGlobalPlanner)
 
 
 int value;
@@ -194,7 +194,9 @@ MyExcelFile << startCell <<"\t"<< start.pose.position.x <<"\t"<< start.pose.posi
   }
 
   // Allow moving
-  startMoving(goal);
+  if (isCellInsideMap(startX, startY) && isCellInsideMap(goalX, goalY)){
+    startMoving(goal);
+  }
   /////////////////////////////////////////////////////////
 
   // call global planner
