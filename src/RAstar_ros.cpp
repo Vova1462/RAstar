@@ -37,7 +37,7 @@
 
 #include "RAstar_ros.h"
 
-#include <pluginlib/class_list_macros.h>
+// #include <pluginlib/class_list_macros.h>
 //register this planner as a BaseGlobalPlanner plugin
 // PLUGINLIB_EXPORT_CLASS(RAstar_planner::RAstarPlannerROS, nav_core::BaseGlobalPlanner)
 
@@ -102,16 +102,16 @@ void RAstarPlannerROS::initialize(std::string name, costmap_2d::Costmap2DROS* co
 
 
 
-	width = costmap_->getSizeInCellsX();
-	height = costmap_->getSizeInCellsY();
-	resolution = costmap_->getResolution();
-	mapSize = width*height;
-	tBreak = 1+1/(mapSize); 
-	value =0;
+    width = costmap_->getSizeInCellsX();
+    height = costmap_->getSizeInCellsY();
+    resolution = costmap_->getResolution();
+    mapSize = width*height;
+    tBreak = 1+1/(mapSize); 
+    value =0;
 
-  isMove = false;
+    isMove = false;
 
-	OGM = new bool [mapSize]; 
+	  OGM = new bool [mapSize]; 
     for (unsigned int iy = 0; iy < costmap_->getSizeInCellsY(); iy++)
     {
       for (unsigned int ix = 0; ix < costmap_->getSizeInCellsX(); ix++)
@@ -125,14 +125,14 @@ void RAstarPlannerROS::initialize(std::string name, costmap_2d::Costmap2DROS* co
       }
     }
 
-  cmd_move_msg = n.advertise<std_msgs::String>("cmd_move", 1000);
-	MyExcelFile << "StartID\tStartX\tStartY\tGoalID\tGoalX\tGoalY\tPlannertime(ms)\tpathLength\tnumberOfCells\t" << endl;
+    cmd_move_msg = n.advertise<std_msgs::String>("cmd_move", 1000);
+	  MyExcelFile << "StartID\tStartX\tStartY\tGoalID\tGoalX\tGoalY\tPlannertime(ms)\tpathLength\tnumberOfCells\t" << endl;
 
     ROS_INFO("RAstar planner initialized successfully");
     initialized_ = true;
   }
   else
-    ROS_WARN("This planner has already been initialized... doing nothing");
+      ROS_WARN("This planner has already been initialized... doing nothing");
 }
 
 bool RAstarPlannerROS::makePlan(const geometry_msgs::PoseStamped& start, const geometry_msgs::PoseStamped& goal,

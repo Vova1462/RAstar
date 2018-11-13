@@ -13,8 +13,11 @@
 
 #include "RAstar_ros.h"
 
-
-
+using namespace RAstar_planner;
+bool get_occupancy_grid(){
+    
+    return true;
+}
 
 int main(int argc, char const *argv[])
 {
