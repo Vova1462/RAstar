@@ -4,6 +4,7 @@ project(relaxed_astar)
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
+# file(GLOB_RESOURSE )
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -12,6 +13,9 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  tf2_ros
+  tf2_msgs
+  geometry_msgs
 )
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -120,12 +124,14 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/relaxed_astar.cpp
 # )
-add_library(relaxed_astar_lib src/RAstar_ros.cpp)
-# add_executable(relaxed_astar src/RAstar_ros.cpp src/rastar_node.cpp)
+# add_library(relaxed_astar_lib src/RAstar_ros.cpp src/RAstar_ros.h)
+add_executable(relaxed_astar src/rastar_node.cpp src/RAstar_ros.h src/RAstar_ros.cpp src/rastar_node.h)
+target_link_libraries(relaxed_astar ${catkin_LIBRARIES})
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure

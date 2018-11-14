@@ -40,6 +40,7 @@
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
+#include <geometry_msgs/TransformStamped.h>
 #include <move_base_msgs/MoveBaseGoal.h>
 #include <move_base_msgs/MoveBaseActionGoal.h>
 
@@ -54,6 +55,8 @@
 #include <tf/tf.h>
 #include <tf/transform_datatypes.h>
 #include <tf/transform_listener.h>
+
+#include <tf2_ros/transform_listener.h>
 
 #include <std_msgs/String.h>
 /** ********************************************/ 
@@ -150,8 +153,10 @@ public:
   float originX;
   float originY;
   float resolution;
+  
   ros::Publisher cmd_move_msg;
-  ros::Publisher response_msg;
+  ros::Publisher response_msg;  
+  
   costmap_2d::Costmap2DROS* costmap_ros_;
   double step_size_, min_dist_from_robot_;
   costmap_2d::Costmap2D* costmap_;
