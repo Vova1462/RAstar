@@ -100,8 +100,6 @@ void RAstarPlannerROS::initialize(std::string name, costmap_2d::Costmap2DROS* co
     originX = costmap_->getOriginX();
     originY = costmap_->getOriginY();
 
-
-
     width = costmap_->getSizeInCellsX();
     height = costmap_->getSizeInCellsY();
     resolution = costmap_->getResolution();
@@ -184,7 +182,7 @@ bool RAstarPlannerROS::makePlan(const geometry_msgs::PoseStamped& start, const g
 
     goalCell = convertToCellIndex(goalX, goalY);
 
-MyExcelFile << startCell <<"\t"<< start.pose.position.x <<"\t"<< start.pose.position.y <<"\t"<< goalCell <<"\t"<< goal.pose.position.x <<"\t"<< goal.pose.position.y;
+  MyExcelFile << startCell <<"\t"<< start.pose.position.x <<"\t"<< start.pose.position.y <<"\t"<< goalCell <<"\t"<< goal.pose.position.x <<"\t"<< goal.pose.position.y;
 
   }
   else
@@ -208,11 +206,11 @@ MyExcelFile << startCell <<"\t"<< start.pose.position.x <<"\t"<< start.pose.posi
 
     bestPath = RAstarPlanner(startCell, goalCell);
 
-//if the global planner find a path
+  //if the global planner find a path
     if ( bestPath.size()>0)
     {
 
-// convert the path
+  // convert the path
 
       for (int i = 0; i < bestPath.size(); i++)
       {

@@ -26,6 +26,8 @@
 
 #include <std_msgs/String.h>
 
+#include <costmap_2d/costmap_2d_ros.h>
+
 //
 #include "RAstar_ros.h"
 
@@ -36,6 +38,7 @@ namespace PathPlanner{
             void init();
             void mapCallback(const nav_msgs::OccupancyGrid::ConstPtr& map_msg);
             void goalCallback(const geometry_msgs::PoseStamped::ConstPtr& goal_msg);
+            void costmapCallback(costmap_2d::Costmap2DROS *costmap_msg);
             void update_coords();
 
             ros::NodeHandle n;

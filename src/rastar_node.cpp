@@ -18,9 +18,10 @@ namespace PathPlanner{
     void PathPlanner::init(){
         tfListener.reset(new  tf2_ros::TransformListener(tf_buffer));
         robot_name = "ump";
-        RAstar_planner::RAstarPlannerROS planner;
-       ros::Subscriber map_sub = n.subscribe("map", 10, &PathPlanner::mapCallback, this);
-       ros::Subscriber goal_sub = n.subscribe("move_base_simple/goal", 1, &PathPlanner::goalCallback, this);
+        ros::Subscriber map_sub = n.subscribe("map", 10, &PathPlanner::mapCallback, this);
+        ros::Subscriber goal_sub = n.subscribe("move_base_simple/goal", 1, &PathPlanner::goalCallback, this);
+        ros::Subscriber cost_map_sub = n.subscribe("costmap_node/costmap/costmap", 10, &PathPlanner::costmapCallback, this);
+        costmap_2d::Costmap2DROS::Costmap2DROS costmap("map", tf_buffer);
         
     }
 
@@ -35,8 +36,12 @@ namespace PathPlanner{
                map[x][y] = map_msg->data[i];
                i++;
            }
-        planner.initialize()
+        // planner.initialize(robot_name, map);
     }
+
+    // void PathPlanner::costmapCallback(costmap_2d::Costmap2DROS *costmap_msg){
+
+    // }
 
     void PathPlanner::goalCallback(const geometry_msgs::PoseStamped::ConstPtr& goal_msg){
         std::vector<int> goal_position(2);
